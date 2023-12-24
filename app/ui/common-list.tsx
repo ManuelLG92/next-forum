@@ -7,13 +7,13 @@ import React from 'react';
 export function CommonList({
   create,
   table,
-}: {
+}: Readonly<{
   create?: { ctx: string; destination: string };
   table: {
     element: React.ReactNode;
     totalPages: number;
   };
-}) {
+}>) {
   return (
     <>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">

@@ -1,15 +1,16 @@
 import { BaseList } from '@/app/lib/api/types';
 import { fetcher, HTTP_METHODS } from '@/app/lib/api';
-import { BASE_COURSE } from '@/app/lib/api/courses';
+import { User } from '@/app/lib/definitions';
 
-export interface User { id: string; name: string;}
-export const fetchCourses = async (): Promise<BaseList<User>> => {
+export const fetchUsers = async (): Promise<BaseList<User>> => {
 
-  const data: BaseList<User> = await fetcher(
-    `${BASE_COURSE}?users`,
+  const data: Array<User> = await fetcher(
+    `users`,
     HTTP_METHODS.GET,
   );
   return {
-    ...data
+    data,
+    count: 1,
+    currentPage: 1
   };
 };

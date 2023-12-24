@@ -1,15 +1,12 @@
-import { Course } from '@/app/lib/api/types';
 import { fetcher, HTTP_METHODS } from '@/app/lib/api';
-import { BASE_COURSE, courseMapper } from '@/app/lib/api/courses';
+import { User } from '@/app/lib/definitions';
 
-export const fetchCoursesById = async ({
+
+export const fetchUsersById = async ({
   id,
 }: {
   id: string;
-}): Promise<Course | null> => {
-  return fetcher(`${BASE_COURSE}/${id}`, HTTP_METHODS.GET)
-    .then((re) => courseMapper(re))
-    .catch(() => {
-      return null;
-    });
-};
+}): Promise<User | null> => {
+  return fetcher(`users/${id}`, HTTP_METHODS.GET)
+  
+}
