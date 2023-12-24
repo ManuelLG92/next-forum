@@ -1,7 +1,7 @@
-import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
-import { CommonList } from '@/app/ui/common-list';
+import Breadcrumbs from '@/app/ui/common/breadcrumbs';
+import { CommonList } from '@/app/ui/common/common-list';
 import { fetchUsers } from '@/app/lib/api/users/retrieve';
-import UsersTable from '@/app/ui/courses/table';
+import UsersTable from '@/app/ui/users/table';
 
 export default async function Page({
   searchParams,
@@ -13,7 +13,6 @@ export default async function Page({
     like?: string;
   };
 }>) {
-
   const data = await fetchUsers();
 
   return (

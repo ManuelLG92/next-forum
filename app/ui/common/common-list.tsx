@@ -1,7 +1,7 @@
 import Search from '@/app/ui/search';
-import Limit from '@/app/ui/invoices/limit';
-import { CreateInvoice } from '@/app/ui/invoices/buttons';
-import Pagination from '@/app/ui/invoices/pagination';
+import Limit from '@/app/ui/common/limit';
+import { CreateInvoice } from '@/app/ui/common/buttons';
+import Pagination from '@/app/ui/common/pagination';
 import React from 'react';
 
 export function CommonList({

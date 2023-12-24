@@ -49,10 +49,10 @@ export default function RetrieveUser({ course }: { course: User }) {
                     ))
                   ) : (
                     <tr>
-                        <td colSpan={2} className="text-center">
-                          No Posts
-                        </td>
-                      </tr>
+                      <td colSpan={2} className="text-center">
+                        No Posts
+                      </td>
+                    </tr>
                   )}
                 </tbody>
               </table>

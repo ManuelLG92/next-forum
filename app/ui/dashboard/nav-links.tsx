@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  UserGroupIcon,
-  HomeIcon,
-  DocumentDuplicateIcon,
-  Square3Stack3DIcon,
-  WalletIcon,
-  Squares2X2Icon,
-} from '@heroicons/react/24/outline';
+import { HomeIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';

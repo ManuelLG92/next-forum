@@ -11,6 +11,7 @@ const defaultCreateInvoice: CreateInvoiceProps = {
   destination: '/dashboard/invoices/create',
   createCtx: 'Invoice',
 };
+
 export function CreateInvoice({
   destination,
   createCtx,

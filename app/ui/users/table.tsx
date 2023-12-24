@@ -1,9 +1,13 @@
-import { UpdateInvoice, DeleteInvoice } from '@/app/ui/invoices/buttons';
+import { DeleteInvoice, UpdateInvoice } from '@/app/ui/common/buttons';
 import { BaseList } from '@/app/lib/api/types';
 import Link from 'next/link';
 import { User } from '@/app/lib/definitions';
 
-export default async function UsersTable({ schools }: { schools: BaseList<User> }) {
+export default async function UsersTable({
+  schools,
+}: {
+  schools: BaseList<User>;
+}) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -20,14 +24,11 @@ export default async function UsersTable({ schools }: { schools: BaseList<User> 
                       <p>Name: {school.data.name}</p>
                     </Link>
                   </div>
-                  
                 </div>
 
                 <div className="flex w-full items-center justify-between pt-4">
                   <div>
-                    <p className="text-xl font-medium">
-                      Created at: N/A
-                    </p>
+                    <p className="text-xl font-medium">Created at: N/A</p>
 
                     <p>Updated at: N/A</p>
                   </div>
@@ -68,32 +69,30 @@ export default async function UsersTable({ schools }: { schools: BaseList<User> 
                     </Link>
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                      <p>{item.data.name}</p>
+                    <p>{item.data.name}</p>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                  N/A
-                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">N/A</td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {item.posts.length ? (
-                    item.posts.map((item) => (
-                      <tr key={item.id}>
-                        <td className="whitespace-nowrap px-3 py-3">
-                          <Link href={`/dashboard/posts/${item.id}`}>
-                            <p>{item.title}</p>
-                          </Link>
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-3">
-                          {item.content}
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
+                      item.posts.map((item) => (
+                        <tr key={item.id}>
+                          <td className="whitespace-nowrap px-3 py-3">
+                            <Link href={`/dashboard/posts/${item.id}`}>
+                              <p>{item.title}</p>
+                            </Link>
+                          </td>
+                          <td className="whitespace-nowrap px-3 py-3">
+                            {item.content}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
                         <td colSpan={2} className="text-center">
                           No Posts
                         </td>
                       </tr>
-                  )}
+                    )}
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
