@@ -1,5 +1,8 @@
 export interface User {
-  data: { id: string; name: string };
+  id: string;
+  name: string;
+  created_at: string;
+
   posts: Array<{ id: string; title: string; content: string }>;
 }
 
@@ -9,9 +12,4 @@ export type Invoice = {
   amount: number;
   date: string;
   status: 'pending' | 'paid';
-};
-
-export type Revenue = {
-  month: string;
-  revenue: number;
 };

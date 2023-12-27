@@ -1,7 +1,7 @@
 import Breadcrumbs from '@/app/ui/common/breadcrumbs';
 import { CommonList } from '@/app/ui/common/common-list';
-import { fetchUsers } from '@/app/lib/api/users/retrieve';
-import UsersTable from '@/app/ui/users/table';
+import { fetchPosts } from '@/app/lib/api/posts/retrieve';
+import PostsTable from '@/app/ui/posts/table';
 
 export default async function Page({
   searchParams,
@@ -16,7 +16,7 @@ export default async function Page({
   const currentPage = Number(searchParams?.page) || 1;
   const currentLimit = Number(searchParams?.limit) || 10;
   const currentLike = searchParams?.query;
-  const data = await fetchUsers({
+  const data = await fetchPosts({
     currentPage,
     limit: currentLimit,
     like: currentLike,
@@ -26,15 +26,15 @@ export default async function Page({
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Users', href: '/dashboard/users', active: true },
+          { label: 'Posts', href: '/dashboard/posts', active: true },
         ]}
       />
       <CommonList
         table={{
-          element: <UsersTable users={data} />,
+          element: <PostsTable posts={data} />,
           totalPages: data.pages,
         }}
-        create={{ ctx: 'User', destination: '/dashboard/users/create' }}
+        create={{ ctx: 'Posts', destination: '/dashboard/posts/create' }}
       />
     </main>
   );

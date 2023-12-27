@@ -9,7 +9,7 @@ export enum HTTP_METHODS {
   DELETE = 'DELETE',
 }
 
-export const buildFilters = (data: Record<string, string>) => {
+export const buildFilters = (data: Record<string, unknown>) => {
   let init: Record<string, string> = {};
   const values = Object.entries(data).reduce((prev, [key, value]) => {
     if (value) {
@@ -20,11 +20,15 @@ export const buildFilters = (data: Record<string, string>) => {
   return new URLSearchParams(values);
 };
 
-export const fetcher = async (
-  url: string,
-  method: HTTP_METHODS,
-  body?: any,
-) => {
+export const fetcher = async ({
+  url,
+  method,
+  body,
+}: {
+  url: string;
+  method: HTTP_METHODS;
+  body?: any;
+}) => {
   noStore();
   const data = await fetch(`${BASE_API}/${url}`, {
     method,

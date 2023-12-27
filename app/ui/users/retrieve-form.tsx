@@ -10,7 +10,7 @@ export default function RetrieveUser({ course }: { course: User }) {
     <>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         <div className="mb-4">
-          <h2 className="text-center">{course.data.name}</h2>
+          <h2 className="text-center">{course.name}</h2>
           <div className="flex justify-around">
             <p>Created at n/a</p>
             <p>Updated at: n/a</p>

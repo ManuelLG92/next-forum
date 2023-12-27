@@ -1,9 +1,8 @@
 import { BaseList } from '@/app/lib/api/types';
 import { buildFilters, fetcher, HTTP_METHODS } from '@/app/lib/api';
-import { User } from '@/app/lib/definitions';
-import { BASE_USERS } from '@/app/lib/api/users';
+import { BASE_POSTS, Posts } from '@/app/lib/api/posts';
 
-export const fetchUsers = async ({
+export const fetchPosts = async ({
   currentPage,
   limit,
   like,
@@ -11,10 +10,11 @@ export const fetchUsers = async ({
   currentPage: number;
   limit: number;
   like?: string;
-}): Promise<BaseList<User>> => {
+}): Promise<BaseList<Posts>> => {
   const search = buildFilters({ page: currentPage, limit, like });
-  return await fetcher({
-    url: `${BASE_USERS}?${search}`,
+  const data = await fetcher({
+    url: `${BASE_POSTS}?${search}`,
     method: HTTP_METHODS.GET,
   });
+  return data;
 };

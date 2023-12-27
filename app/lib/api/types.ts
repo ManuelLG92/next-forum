@@ -1,5 +1,5 @@
 export type BaseList<T> = {
   data: T[];
-  count: number;
+  pages: number;
   currentPage: number;
 };

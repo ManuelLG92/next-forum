@@ -7,5 +7,5 @@ export const fetchUsersById = async ({
 }: {
   id: string;
 }): Promise<User | null> => {
-  return fetcher(`${BASE_USERS}/${id}`, HTTP_METHODS.GET);
+  return fetcher({ url: `${BASE_USERS}/${id}`, method: HTTP_METHODS.GET });
 };
