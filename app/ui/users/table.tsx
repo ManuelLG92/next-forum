@@ -2,6 +2,7 @@ import { DeleteInvoice, UpdateInvoice } from '@/app/ui/common/buttons';
 import { BaseList } from '@/app/lib/api/types';
 import Link from 'next/link';
 import { User } from '@/app/lib/definitions';
+import React from 'react';
 
 export default async function UsersTable({ users }: { users: BaseList<User> }) {
   return (
@@ -32,68 +33,46 @@ export default async function UsersTable({ users }: { users: BaseList<User> }) {
               </div>
             ))}
           </div>
-          <table className="hidden min-w-full text-gray-900 md:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
-              <tr>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Name
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Since
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Posts
-                </th>
-                <th scope="col" className="relative py-3 pl-6 pr-3">
-                  Actions
-                  <span className="sr-only">Edit</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white">
-              {users.data.map((item) => (
-                <tr
-                  key={item.id}
-                  className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
-                >
-                  <td className="whitespace-nowrap px-3 py-3">
-                    <Link href={`/dashboard/users/${item.id.split('T')[0]}`}>
-                      <p>{item.name}</p>
-                    </Link>
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {item.created_at}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-3">
-                    {item.posts.length ? (
-                      item.posts.map((item) => (
-                        <tr key={item.id}>
-                          <td className="whitespace-nowrap px-3 py-3">
-                            <Link href={`/dashboard/posts/${item.id}`}>
-                              <p>{item.title}</p>
-                              <p>{item.content}</p>
-                            </Link>
-                          </td>
-                        </tr>
+          {users.data.map((user) => (
+            <div
+              className="my-12 min-w-full overflow-hidden rounded text-gray-900 shadow-lg"
+              key={user.id}
+            >
+              <div className="my-12 px-6">
+                <div className="mb-2 flex justify-between text-xl font-bold">
+                  <Link href={`/dashboard/users/${user.id}`}>
+                    <h1>{user.name}</h1>
+                  </Link>
+                  <p>Since #{user.created_at.split('T')[0]}</p>
+                </div>
+                <hr />
+                <div className="mt-8 pl-4 text-gray-700">
+                  <h2 className="mb-6 underline">Posts:</h2>
+                  <ul>
+                    {user.posts?.length ? (
+                      user.posts.map((post) => (
+                        <li key={post.id}>
+                          <Link href={`/dashboard/posts/${post.id}`}>
+                            <p>- {post.title}</p>
+                          </Link>
+                        </li>
                       ))
                     ) : (
-                      <tr>
-                        <td colSpan={2} className="text-center">
-                          No Posts
-                        </td>
-                      </tr>
+                      <p>N/A</p>
                     )}
-                  </td>
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex justify-end gap-3">
-                      <UpdateInvoice id={item.id} />
-                      <DeleteInvoice id={item.id} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </ul>
+                </div>
+                <hr className="my-4 border-gray-200 dark:border-gray-700 sm:mx-auto lg:mb-4" />
+
+                <div className="whitespace-nowrap py-3 pl-6 pr-3">
+                  <div className="flex justify-end gap-3">
+                    <UpdateInvoice id={user.id} />
+                    <DeleteInvoice id={user.id} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
