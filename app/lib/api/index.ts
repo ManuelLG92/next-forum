@@ -38,8 +38,8 @@ export const fetcher = async ({
     },
   });
   const dataJson = await data.json();
+
   if (data.status > 399) {
-    console.log(dataJson);
     throw new Error(dataJson.message);
   }
   return dataJson;

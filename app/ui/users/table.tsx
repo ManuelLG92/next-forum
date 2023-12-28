@@ -1,4 +1,4 @@
-import { DeleteInvoice, UpdateInvoice } from '@/app/ui/common/buttons';
+import { DeleteButton, UpdateLink } from '@/app/ui/common/buttons';
 import { BaseList } from '@/app/lib/api/types';
 import Link from 'next/link';
 import { User } from '@/app/lib/definitions';
@@ -66,8 +66,8 @@ export default async function UsersTable({ users }: { users: BaseList<User> }) {
 
                 <div className="whitespace-nowrap py-3 pl-6 pr-3">
                   <div className="flex justify-end gap-3">
-                    <UpdateInvoice id={user.id} />
-                    <DeleteInvoice id={user.id} />
+                    <UpdateLink id={user.id} />
+                    <DeleteButton id={user.id} />
                   </div>
                 </div>
               </div>

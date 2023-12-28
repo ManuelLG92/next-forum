@@ -29,25 +29,28 @@ export function CreateInvoice({
   );
 }
 
-export function UpdateInvoice({ id }: { id: string }) {
+export function UpdateLink({ url }: { url: string }) {
   return (
-    <Link
-      href={`/dashboard/invoices/${id}/edit`}
-      className="rounded-md border p-2 hover:bg-gray-100"
-    >
+    <Link href={url} className="rounded-md border p-2 hover:bg-gray-100">
       <PencilIcon className="w-5" />
     </Link>
   );
 }
 
-export function DeleteInvoice({ id }: { id: string }) {
-  const deleteWithId = deleteInvoice.bind(null, id);
+export function DeleteButton({
+  context,
+  onClick,
+}: {
+  context?: string;
+  onClick?: () => void;
+}) {
   return (
-    <form action={deleteWithId}>
-      <button className="rounded-md border p-2 hover:bg-gray-100">
-        <span className="sr-only">Delete</span>
-        <TrashIcon className="w-5" />
-      </button>
-    </form>
+    <button
+      className="rounded-md border p-2 hover:bg-gray-100"
+      onClick={onClick ? onClick : () => {}}
+    >
+      <span className="sr-only">Delete {context && context}</span>
+      <TrashIcon className="w-5" />
+    </button>
   );
 }

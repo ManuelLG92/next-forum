@@ -16,6 +16,5 @@ export const createPost = async (body: CreatePostParams): Promise<CreateId> => {
     method: HTTP_METHODS.POST,
     body,
   });
-  console.log(data);
   return data;
 };
