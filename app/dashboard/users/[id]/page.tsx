@@ -5,7 +5,8 @@ import RetrieveUser from '@/app/ui/users/retrieve-form';
 
 export default async function Page({
   params,
-}: Readonly<{ params: { id: string } }>) {
+  searchParams,
+}: Readonly<{ params: { id: string }; searchParams: { toList: string } }>) {
   const { id } = params;
   const course = await fetchUsersById({ id });
   if (!course) {
@@ -19,7 +20,10 @@ export default async function Page({
           { label: 'User', href: `/dashboard/users/${id}`, active: true },
         ]}
       />
-      <RetrieveUser course={course} />
+      <RetrieveUser
+        course={course}
+        toPostList={searchParams?.toList === 'true'}
+      />
     </main>
   );
 }

@@ -1,10 +1,11 @@
+'use client';
 import { DeleteButton, UpdateLink } from '@/app/ui/common/buttons';
 import { BaseList } from '@/app/lib/api/types';
 import Link from 'next/link';
 import { User } from '@/app/lib/definitions';
 import React from 'react';
 
-export default async function UsersTable({ users }: { users: BaseList<User> }) {
+export default function UsersTable({ users }: { users: BaseList<User> }) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -17,7 +18,7 @@ export default async function UsersTable({ users }: { users: BaseList<User> }) {
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
-                    <Link href={`/dashboard/courses/${school.id}`}>
+                    <Link href={`/dashboard/users/${school.id}`}>
                       <p>Name: {school.name}</p>
                     </Link>
                   </div>
@@ -66,8 +67,13 @@ export default async function UsersTable({ users }: { users: BaseList<User> }) {
 
                 <div className="whitespace-nowrap py-3 pl-6 pr-3">
                   <div className="flex justify-end gap-3">
-                    <UpdateLink id={user.id} />
-                    <DeleteButton id={user.id} />
+                    <UpdateLink url={`/dashboard/users/update/${user.id}`} />
+                    <DeleteButton
+                      context={'Delete post'}
+                      onClick={() => {
+                        console.log('WIP');
+                      }}
+                    />
                   </div>
                 </div>
               </div>

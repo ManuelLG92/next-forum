@@ -3,7 +3,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { User } from '@/app/lib/definitions';
 
-export default function RetrieveUser({ course }: { course: User }) {
+export default function RetrieveUser({
+  course,
+  toPostList,
+}: {
+  course: User;
+  toPostList?: boolean;
+}) {
   const router = useRouter();
 
   return (
@@ -63,7 +69,11 @@ export default function RetrieveUser({ course }: { course: User }) {
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <div
-          onClick={() => router.back()}
+          onClick={() =>
+            toPostList === undefined || !toPostList
+              ? router.back()
+              : router.push('/dashboard/users')
+          }
           className="aria-disabled:opacity-50', flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:cursor-pointer hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed"
         >
           Back

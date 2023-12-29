@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import React, { useEffect, useState } from 'react';
 import useUserStore from '@/app/store/user';
-import { createPost, CreatePostParams } from '@/app/lib/api/posts/create';
 import { useRouter } from 'next/navigation';
+import { createUser, CreateUserParams } from '@/app/lib/api/users/create';
 
 interface Fields {
   isInit: boolean;
@@ -19,20 +19,27 @@ const defaultFieldsValues: Fields = {
   message: '',
   error: '',
 };
-export default function CreatePostForm() {
-  const [title, setTitle] = useState<Fields>(defaultFieldsValues);
-  const [content, setContent] = useState<Fields>(defaultFieldsValues);
+export default function CreateUserForm() {
+  const [name, setName] = useState<Fields>(defaultFieldsValues);
+  const [email, setEmail] = useState<Fields>(defaultFieldsValues);
+  const [password, setPassword] = useState<Fields>(defaultFieldsValues);
   const [isValid, setIsValid] = useState<boolean>(false);
-  const { id } = useUserStore();
+  const { set } = useUserStore();
   const router = useRouter();
 
+  const resetValues = () => {
+    setName(defaultFieldsValues);
+    setEmail(defaultFieldsValues);
+    setPassword(defaultFieldsValues);
+    setIsValid(false);
+  };
   useEffect(() => {
-    if (!title.isInit || !content.isInit || title.error || content.error) {
+    if (!name.isInit || !email.isInit || name.error || email.error) {
       setIsValid(false);
     } else {
       setIsValid(true);
     }
-  }, [title, content]);
+  }, [name, email]);
 
   const handleStringChange = ({
     event,
@@ -78,13 +85,17 @@ export default function CreatePostForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const body: CreatePostParams = {
-      content: content.value,
-      title: title.value,
-      created_by: id,
+    const body: CreateUserParams = {
+      name: name.value,
+      email: email.value,
+      password: password.value,
     };
-    createPost(body)
-      .then((r) => router.push(`/dashboard/posts/${r.id}?toList=true`))
+    createUser(body)
+      .then((r) => {
+        resetValues();
+        set(r.id);
+        router.push(`/dashboard/users/${r.id}?toList=true`);
+      })
       .catch((e) => console.log(e));
   };
 
@@ -94,73 +105,112 @@ export default function CreatePostForm() {
         className="rounded-md bg-gray-50 p-4 md:p-6"
         aria-describedby="creation-error"
       >
-        {/* Title */}
+        {/* Name */}
         <div className="mb-4">
-          <label htmlFor="title" className="mb-2 block text-sm font-medium">
-            Title
+          <label htmlFor="name" className="mb-2 block text-sm font-medium">
+            Name
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="title"
-                name="title"
+                id="name"
+                name="name"
                 type="text"
                 step="0.01"
-                placeholder="Enter title"
+                placeholder="Enter name"
                 className="peer block w-full rounded-md border border-gray-200 py-2 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="title-error"
-                value={title.value}
+                aria-describedby="name-error"
+                value={name.value}
                 onChange={(e) =>
                   handleStringChange({
                     event: e,
                     minLength: 5,
                     maxLength: 25,
-                    context: 'Title',
-                    handler: setTitle,
+                    context: 'Name',
+                    handler: setName,
                   })
                 }
               />
             </div>
             <div id="title-error" aria-live="polite" aria-atomic="true">
-              {title.isInit && title.error ? (
-                <p className="mt-2 text-sm text-red-500">{title.error}</p>
+              {name.isInit && name.error ? (
+                <p className="mt-2 text-sm text-red-500">{name.error}</p>
               ) : (
-                <p className="mt-2 text-sm text-green-500">{title.message}</p>
+                <p className="mt-2 text-sm text-green-500">{name.message}</p>
               )}
             </div>
           </div>
         </div>
 
-        {/* Title */}
+        {/* Email */}
         <div className="mb-4">
-          <label htmlFor="content" className="mb-2 block text-sm font-medium">
-            Content
+          <label htmlFor="email" className="mb-2 block text-sm font-medium">
+            Email
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
-              <textarea
-                id="content"
-                name="content"
-                placeholder="Enter content"
+              <input
+                id="email"
+                name="email"
+                placeholder="Enter email"
+                type="text"
                 className="peer block w-full rounded-md border border-gray-200 py-2 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="content-error"
-                value={content.value}
+                aria-describedby="email-error"
+                value={email.value}
                 onChange={(e) =>
                   handleStringChange({
                     event: e,
-                    minLength: 7,
+                    minLength: 5,
                     maxLength: 25,
-                    context: 'Content',
-                    handler: setContent,
+                    context: 'Email',
+                    handler: setEmail,
                   })
                 }
               />
             </div>
-            <div id="content-error" aria-live="polite" aria-atomic="true">
-              {content.isInit && content.error ? (
-                <p className="mt-2 text-sm text-red-500">{content.error}</p>
+            <div id="email-error" aria-live="polite" aria-atomic="true">
+              {email.isInit && email.error ? (
+                <p className="mt-2 text-sm text-red-500">{email.error}</p>
               ) : (
-                <p className="mt-2 text-sm text-green-500">{content.message}</p>
+                <p className="mt-2 text-sm text-green-500">{email.message}</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Password */}
+        <div className="mb-4">
+          <label htmlFor="password" className="mb-2 block text-sm font-medium">
+            Password
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                placeholder="Enter password"
+                type="text"
+                className="peer block w-full rounded-md border border-gray-200 py-2 text-sm outline-2 placeholder:text-gray-500"
+                aria-describedby="password-error"
+                value={password.value}
+                onChange={(e) =>
+                  handleStringChange({
+                    event: e,
+                    minLength: 5,
+                    maxLength: 25,
+                    context: 'Password',
+                    handler: setPassword,
+                  })
+                }
+              />
+            </div>
+            <div id="password-error" aria-live="polite" aria-atomic="true">
+              {password.isInit && password.error ? (
+                <p className="mt-2 text-sm text-red-500">{password.error}</p>
+              ) : (
+                <p className="mt-2 text-sm text-green-500">
+                  {password.message}
+                </p>
               )}
             </div>
           </div>
@@ -168,7 +218,7 @@ export default function CreatePostForm() {
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href={'/dashboard/posts'}
+          href={'/dashboard/users'}
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
@@ -179,7 +229,7 @@ export default function CreatePostForm() {
           disabled={!isValid}
           onClick={handleSubmit}
         >
-          Create Post
+          Create User
         </Button>
       </div>
     </form>
