@@ -3,23 +3,33 @@ import { DeleteButton, UpdateLink } from '@/app/ui/common/buttons';
 import { BaseList } from '@/app/lib/api/types';
 import Link from 'next/link';
 import { User } from '@/app/lib/definitions';
-import React from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import ToastSuccess from '@/app/ui/common/toast-success';
+import { deleteUserById } from '@/app/lib/api/users/deleteById';
+import { formatDateString } from '@/app/lib/utils';
 
 export default function UsersTable({ users }: { users: BaseList<User> }) {
+  const [isDeleted, setIsDeleted] = useState<boolean>(false);
+  const router = useRouter();
+
   return (
     <div className="mt-6 flow-root">
+      {isDeleted && <ToastSuccess context={'User removed successfully'} />}
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
           <div className="md:hidden">
-            {users.data.map((school) => (
+            {users.data.map((user) => (
               <div
-                key={school.id}
+                key={user.id}
                 className="mb-2 w-full rounded-md bg-white p-4"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
-                    <Link href={`/dashboard/users/${school.id}`}>
-                      <p>Name: {school.name}</p>
+                    <Link href={`/dashboard/users/${user.id}`}>
+                      <p>
+                        Name: {user.name} - id: {user.id}
+                      </p>
                     </Link>
                   </div>
                 </div>
@@ -44,7 +54,7 @@ export default function UsersTable({ users }: { users: BaseList<User> }) {
                   <Link href={`/dashboard/users/${user.id}`}>
                     <h1>{user.name}</h1>
                   </Link>
-                  <p>Since #{user.created_at.split('T')[0]}</p>
+                  <p>Since #{formatDateString(user.created_at)}</p>
                 </div>
                 <hr />
                 <div className="mt-8 pl-4 text-gray-700">
@@ -68,12 +78,26 @@ export default function UsersTable({ users }: { users: BaseList<User> }) {
                 <div className="whitespace-nowrap py-3 pl-6 pr-3">
                   <div className="flex justify-end gap-3">
                     <UpdateLink url={`/dashboard/users/update/${user.id}`} />
-                    <DeleteButton
-                      context={'Delete post'}
-                      onClick={() => {
-                        console.log('WIP');
-                      }}
-                    />
+                    <div className="whitespace-nowrap py-3 pl-6 pr-3">
+                      <div className="flex justify-end gap-3">
+                        <DeleteButton
+                          onClick={async () => {
+                            const confirmed = window.confirm(
+                              `Are you sure you want to delete the user ${user.name}? This action cannot be undone.`,
+                            );
+                            if (confirmed) {
+                              await deleteUserById({ id: user.id });
+                              setIsDeleted(true);
+                              setTimeout(() => {
+                                setIsDeleted(false);
+                                router.refresh();
+                              }, 2500);
+                            }
+                          }}
+                          context={'Delete post'}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

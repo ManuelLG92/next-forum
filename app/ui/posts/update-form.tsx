@@ -2,8 +2,6 @@
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import React, { useEffect, useState } from 'react';
-import useUserStore from '@/app/store/user';
-import { createPost, CreatePostParams } from '@/app/lib/api/posts/create';
 import { useRouter } from 'next/navigation';
 import { Posts } from '@/app/lib/api/posts';
 import { updatePost, UpdatePostParams } from '@/app/lib/api/posts/update';

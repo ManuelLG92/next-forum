@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { deletePostById } from '@/app/lib/api/posts/deleteById';
 import { useRouter } from 'next/navigation';
 import ToastSuccess from '@/app/ui/common/toast-success';
+import { formatDateString } from '@/app/lib/utils';
 
 export default function PostsTable({ posts }: { posts: BaseList<Posts> }) {
   const { id } = useUserStore();
@@ -35,35 +36,33 @@ export default function PostsTable({ posts }: { posts: BaseList<Posts> }) {
                 <hr />
                 <p className="mt-8 text-base text-gray-700">{post.content} </p>
                 <p className="mt-8 text-end text-gray-700">
-                  #{post.created_at.split('T')[0]}
+                  #{formatDateString(post.created_at)}
                 </p>
               </div>
               <hr className="my-4 border-gray-200 dark:border-gray-700 sm:mx-auto lg:mb-4" />
 
               {post.user.id === id && (
-                <>
-                  <div className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <div className="flex justify-end gap-3">
-                      <UpdateLink url={`/dashboard/posts/update/${post.id}`} />
-                      <DeleteButton
-                        onClick={async () => {
-                          const confirmed = window.confirm(
-                            `Are you sure you want to delete the post ${post.title}? This action cannot be undone.`,
-                          );
-                          if (confirmed) {
-                            await deletePostById({ id: post.id });
-                            setIsDeleted(true);
-                            setTimeout(() => {
-                              setIsDeleted(false);
-                              router.refresh();
-                            }, 2500);
-                          }
-                        }}
-                        context={'Delete post'}
-                      />
-                    </div>
+                <div className="whitespace-nowrap py-3 pl-6 pr-3">
+                  <div className="flex justify-end gap-3">
+                    <UpdateLink url={`/dashboard/posts/update/${post.id}`} />
+                    <DeleteButton
+                      onClick={async () => {
+                        const confirmed = window.confirm(
+                          `Are you sure you want to delete the post ${post.title}? This action cannot be undone.`,
+                        );
+                        if (confirmed) {
+                          await deletePostById({ id: post.id });
+                          setIsDeleted(true);
+                          setTimeout(() => {
+                            setIsDeleted(false);
+                            router.refresh();
+                          }, 2500);
+                        }
+                      }}
+                      context={'Delete post'}
+                    />
                   </div>
-                </>
+                </div>
               )}
             </div>
           ))}
