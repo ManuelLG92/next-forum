@@ -24,7 +24,7 @@ export default function CreateUserForm() {
   const [email, setEmail] = useState<Fields>(defaultFieldsValues);
   const [password, setPassword] = useState<Fields>(defaultFieldsValues);
   const [isValid, setIsValid] = useState<boolean>(false);
-  const { set } = useUserStore();
+  const { set, addUser } = useUserStore();
   const router = useRouter();
 
   const resetValues = () => {
@@ -94,6 +94,7 @@ export default function CreateUserForm() {
       .then((r) => {
         resetValues();
         set(r.id);
+        addUser(r.id);
         router.push(`/dashboard/users/${r.id}?toList=true`);
       })
       .catch((e) => console.log(e));

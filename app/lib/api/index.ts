@@ -1,6 +1,6 @@
 import { unstable_noStore as noStore } from 'next/dist/server/web/spec-extension/unstable-no-store';
 
-const BASE_API = 'http://localhost:8080';
+const BASE_API = process.env.NEXT_PUBLIC_API_URL;
 
 export enum HTTP_METHODS {
   GET = 'GET',

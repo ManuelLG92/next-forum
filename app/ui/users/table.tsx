@@ -8,42 +8,18 @@ import { useRouter } from 'next/navigation';
 import ToastSuccess from '@/app/ui/common/toast-success';
 import { deleteUserById } from '@/app/lib/api/users/deleteById';
 import { formatDateString } from '@/app/lib/utils';
+import useUserStore from '@/app/store/user';
 
 export default function UsersTable({ users }: { users: BaseList<User> }) {
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const router = useRouter();
+  const { removeUser } = useUserStore();
 
   return (
     <div className="mt-6 flow-root">
       {isDeleted && <ToastSuccess context={'User removed successfully'} />}
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <div className="md:hidden">
-            {users.data.map((user) => (
-              <div
-                key={user.id}
-                className="mb-2 w-full rounded-md bg-white p-4"
-              >
-                <div className="flex items-center justify-between border-b pb-4">
-                  <div>
-                    <Link href={`/dashboard/users/${user.id}`}>
-                      <p>
-                        Name: {user.name} - id: {user.id}
-                      </p>
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="flex w-full items-center justify-between pt-4">
-                  <div>
-                    <p className="text-xl font-medium">Created at: N/A</p>
-
-                    <p>Updated at: N/A</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
           {users.data.map((user) => (
             <div
               className="my-12 min-w-full overflow-hidden rounded text-gray-900 shadow-lg"
@@ -88,6 +64,7 @@ export default function UsersTable({ users }: { users: BaseList<User> }) {
                             if (confirmed) {
                               await deleteUserById({ id: user.id });
                               setIsDeleted(true);
+                              removeUser(user.id);
                               setTimeout(() => {
                                 setIsDeleted(false);
                                 router.refresh();

@@ -1,10 +1,10 @@
 'use client';
 import SideNav from '@/app/ui/dashboard/sidenav';
 import React from 'react';
-import useUserStore, { users } from '@/app/store/user';
+import useUserStore from '@/app/store/user';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { id, set } = useUserStore();
+  const { id, set, users } = useUserStore();
   return (
     <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
       <div className="w-full flex-none md:w-64">

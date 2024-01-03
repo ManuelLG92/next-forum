@@ -3,19 +3,6 @@ import { format as dateFormatter } from 'date-fns';
 export const formatDateString = (date: string, format = 'yyyy-MM-dd') => {
   return dateFormatter(new Date(date), format);
 };
-export const formatDateToLocal = (
-  dateStr: string,
-  locale: string = 'en-US',
-) => {
-  const date = new Date(dateStr);
-  const options: Intl.DateTimeFormatOptions = {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  };
-  const formatter = new Intl.DateTimeFormat(locale, options);
-  return formatter.format(date);
-};
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
   // If the total number of pages is 7 or less,
